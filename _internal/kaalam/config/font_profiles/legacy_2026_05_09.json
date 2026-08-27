@@ -1,0 +1,701 @@
+{
+  "metadata": {
+    "profile_name": "legacy_2026_05_09",
+    "created_on": "2026-05-09",
+    "purpose": "Restore point for the pre-Outfit/Cormorant/JetBrains Mono Kaalam font defaults.",
+    "restore_target": "kaalam/config/fontconfig.json",
+    "restore_note": "Copy the fontconfig object from this profile back to the restore target and restart Kaalam."
+  },
+  "fontconfig": {
+    "version": 1,
+    "restart_required": true,
+    "require_exactly_one_enabled": true,
+    "fallback_policy": "first_available_supported",
+    "languages": {
+      "en": {
+        "body": [
+          {
+            "family": "Segoe UI",
+            "enabled": true
+          },
+          {
+            "family": "Outfit",
+            "enabled": false
+          },
+          {
+            "family": "Inter",
+            "enabled": false
+          },
+          {
+            "family": "Roboto",
+            "enabled": false
+          },
+          {
+            "family": "Arial",
+            "enabled": false
+          },
+          {
+            "family": "Plus Jakarta Sans",
+            "enabled": false
+          },
+          {
+            "family": "Tahoma",
+            "enabled": false
+          }
+        ],
+        "heading": [
+          {
+            "family": "Segoe UI",
+            "enabled": true
+          },
+          {
+            "family": "Outfit",
+            "enabled": false
+          },
+          {
+            "family": "Inter",
+            "enabled": false
+          },
+          {
+            "family": "Plus Jakarta Sans",
+            "enabled": false
+          },
+          {
+            "family": "Arial",
+            "enabled": false
+          },
+          {
+            "family": "Tahoma",
+            "enabled": false
+          }
+        ],
+        "display": [
+          {
+            "family": "Georgia",
+            "enabled": true
+          },
+          {
+            "family": "Cinzel",
+            "enabled": false
+          },
+          {
+            "family": "Cormorant Garamond",
+            "enabled": false
+          },
+          {
+            "family": "Playfair Display",
+            "enabled": false
+          },
+          {
+            "family": "Times New Roman",
+            "enabled": false
+          }
+        ],
+        "mono": [
+          {
+            "family": "Consolas",
+            "enabled": true
+          },
+          {
+            "family": "JetBrains Mono",
+            "enabled": false
+          },
+          {
+            "family": "Courier New",
+            "enabled": false
+          }
+        ],
+        "chart_orb_display": [
+          {
+            "family": "Georgia",
+            "enabled": true
+          },
+          {
+            "family": "Cinzel",
+            "enabled": false
+          },
+          {
+            "family": "Cormorant Garamond",
+            "enabled": false
+          },
+          {
+            "family": "Playfair Display",
+            "enabled": false
+          },
+          {
+            "family": "Segoe UI",
+            "enabled": false
+          },
+          {
+            "family": "Arial",
+            "enabled": false
+          }
+        ],
+        "chart_orb_compact": [
+          {
+            "family": "Segoe UI",
+            "enabled": true
+          },
+          {
+            "family": "Outfit",
+            "enabled": false
+          },
+          {
+            "family": "Inter",
+            "enabled": false
+          },
+          {
+            "family": "Roboto",
+            "enabled": false
+          },
+          {
+            "family": "Arial",
+            "enabled": false
+          }
+        ]
+      },
+      "ta": {
+        "body": [
+          {
+            "family": "Nirmala UI",
+            "enabled": true
+          },
+          {
+            "family": "Noto Sans Tamil",
+            "enabled": false
+          },
+          {
+            "family": "Noto Sans Tamil SemiCondensed",
+            "enabled": false
+          },
+          {
+            "family": "Noto Sans Tamil Condensed",
+            "enabled": false
+          },
+          {
+            "family": "Noto Sans Tamil ExtraCondensed",
+            "enabled": false
+          },
+          {
+            "family": "Latha",
+            "enabled": false
+          },
+          {
+            "family": "Vijaya",
+            "enabled": false
+          },
+          {
+            "family": "Tamil MN",
+            "enabled": false
+          }
+        ],
+        "heading": [
+          {
+            "family": "Nirmala UI",
+            "enabled": true
+          },
+          {
+            "family": "Noto Sans Tamil",
+            "enabled": false
+          },
+          {
+            "family": "Noto Sans Tamil SemiCondensed",
+            "enabled": false
+          },
+          {
+            "family": "Latha",
+            "enabled": false
+          },
+          {
+            "family": "Vijaya",
+            "enabled": false
+          },
+          {
+            "family": "Tamil MN",
+            "enabled": false
+          }
+        ],
+        "display": [
+          {
+            "family": "Nirmala UI",
+            "enabled": true
+          },
+          {
+            "family": "Noto Sans Tamil",
+            "enabled": false
+          },
+          {
+            "family": "Noto Sans Tamil SemiCondensed",
+            "enabled": false
+          },
+          {
+            "family": "Latha",
+            "enabled": false
+          },
+          {
+            "family": "Tamil MN",
+            "enabled": false
+          }
+        ],
+        "mono": [
+          {
+            "family": "Nirmala UI",
+            "enabled": true
+          },
+          {
+            "family": "Noto Sans Tamil",
+            "enabled": false
+          },
+          {
+            "family": "Noto Sans Tamil SemiCondensed",
+            "enabled": false
+          },
+          {
+            "family": "Latha",
+            "enabled": false
+          }
+        ],
+        "chart_orb_display": [
+          {
+            "family": "Noto Sans Tamil",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Noto Sans Tamil SemiCondensed",
+            "enabled": false
+          },
+          {
+            "family": "Noto Sans Tamil Condensed",
+            "enabled": false
+          },
+          {
+            "family": "Latha",
+            "enabled": false
+          },
+          {
+            "family": "Tamil MN",
+            "enabled": false
+          }
+        ],
+        "chart_orb_compact": [
+          {
+            "family": "Noto Sans Tamil SemiCondensed",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Noto Sans Tamil",
+            "enabled": false
+          },
+          {
+            "family": "Noto Sans Tamil Condensed",
+            "enabled": false
+          },
+          {
+            "family": "Noto Sans Tamil ExtraCondensed",
+            "enabled": false
+          },
+          {
+            "family": "Latha",
+            "enabled": false
+          }
+        ]
+      },
+      "hi": {
+        "body": [
+          {
+            "family": "Noto Sans Devanagari",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Mangal",
+            "enabled": false
+          },
+          {
+            "family": "Kokila",
+            "enabled": false
+          },
+          {
+            "family": "Aparajita",
+            "enabled": false
+          }
+        ],
+        "heading": [
+          {
+            "family": "Noto Sans Devanagari",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Mangal",
+            "enabled": false
+          },
+          {
+            "family": "Kokila",
+            "enabled": false
+          }
+        ],
+        "display": [
+          {
+            "family": "Noto Sans Devanagari",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Mangal",
+            "enabled": false
+          },
+          {
+            "family": "Kokila",
+            "enabled": false
+          }
+        ],
+        "mono": [
+          {
+            "family": "Noto Sans Devanagari",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Mangal",
+            "enabled": false
+          }
+        ],
+        "chart_orb_display": [
+          {
+            "family": "Noto Sans Devanagari",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Mangal",
+            "enabled": false
+          },
+          {
+            "family": "Kokila",
+            "enabled": false
+          }
+        ],
+        "chart_orb_compact": [
+          {
+            "family": "Noto Sans Devanagari",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Mangal",
+            "enabled": false
+          }
+        ]
+      },
+      "te": {
+        "body": [
+          {
+            "family": "Noto Sans Telugu",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Gautami",
+            "enabled": false
+          },
+          {
+            "family": "Vani",
+            "enabled": false
+          }
+        ],
+        "heading": [
+          {
+            "family": "Noto Sans Telugu",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Gautami",
+            "enabled": false
+          },
+          {
+            "family": "Vani",
+            "enabled": false
+          }
+        ],
+        "display": [
+          {
+            "family": "Noto Sans Telugu",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Gautami",
+            "enabled": false
+          }
+        ],
+        "mono": [
+          {
+            "family": "Noto Sans Telugu",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Gautami",
+            "enabled": false
+          }
+        ],
+        "chart_orb_display": [
+          {
+            "family": "Noto Sans Telugu",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Gautami",
+            "enabled": false
+          },
+          {
+            "family": "Vani",
+            "enabled": false
+          }
+        ],
+        "chart_orb_compact": [
+          {
+            "family": "Noto Sans Telugu",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Gautami",
+            "enabled": false
+          }
+        ]
+      },
+      "kn": {
+        "body": [
+          {
+            "family": "Noto Sans Kannada",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Tunga",
+            "enabled": false
+          }
+        ],
+        "heading": [
+          {
+            "family": "Noto Sans Kannada",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Tunga",
+            "enabled": false
+          }
+        ],
+        "display": [
+          {
+            "family": "Noto Sans Kannada",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Tunga",
+            "enabled": false
+          }
+        ],
+        "mono": [
+          {
+            "family": "Noto Sans Kannada",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Tunga",
+            "enabled": false
+          }
+        ],
+        "chart_orb_display": [
+          {
+            "family": "Noto Sans Kannada",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Tunga",
+            "enabled": false
+          }
+        ],
+        "chart_orb_compact": [
+          {
+            "family": "Noto Sans Kannada",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Tunga",
+            "enabled": false
+          }
+        ]
+      },
+      "ml": {
+        "body": [
+          {
+            "family": "Noto Sans Malayalam",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Kartika",
+            "enabled": false
+          },
+          {
+            "family": "Rachana",
+            "enabled": false
+          }
+        ],
+        "heading": [
+          {
+            "family": "Noto Sans Malayalam",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Kartika",
+            "enabled": false
+          },
+          {
+            "family": "Rachana",
+            "enabled": false
+          }
+        ],
+        "display": [
+          {
+            "family": "Noto Sans Malayalam",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Kartika",
+            "enabled": false
+          }
+        ],
+        "mono": [
+          {
+            "family": "Noto Sans Malayalam",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Kartika",
+            "enabled": false
+          }
+        ],
+        "chart_orb_display": [
+          {
+            "family": "Noto Sans Malayalam",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Kartika",
+            "enabled": false
+          },
+          {
+            "family": "Rachana",
+            "enabled": false
+          }
+        ],
+        "chart_orb_compact": [
+          {
+            "family": "Noto Sans Malayalam",
+            "enabled": true
+          },
+          {
+            "family": "Nirmala UI",
+            "enabled": false
+          },
+          {
+            "family": "Kartika",
+            "enabled": false
+          }
+        ]
+      }
+    }
+  }
+}

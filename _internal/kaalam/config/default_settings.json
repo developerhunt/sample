@@ -1,0 +1,41 @@
+{
+    "theme": "divya_jyotisha",
+    "chart_style": "south_indian",
+    "language": "ta",
+    "ayanamsa": "DPL",
+    "house_system": "Sripathi",
+    "ephemeris_type": "jpl_de440",
+    "legacy_position_model": "truepos",
+    "ayanamsa_offset_arcsec": 0.0,
+    "ayanamsa_time_offset_minutes": 0.0,
+    "chart_time_offset_minutes": 0.0,
+    "home_experience": "editorial",
+    "star_lord_matrix_path": "",
+    "financial_chart_type": "bar",
+    "window": {
+        "width": 1400,
+        "height": 900,
+        "remember_size": true
+    },
+    "display": {
+        "display_profile": "adaptive",
+        "text_size_mode": "normal",
+        "density_mode": "compact",
+        "reduce_motion": false,
+        "performance_mode": true,
+        "planet_values_enabled": false,
+        "effect_quality": "ultra",
+        "dasha_levels": 5,
+        "retrograde_aspects_mode": "reverse_special",
+        "retrograde_dasha_mode": "reverse_sequence_and_balance",
+        "jamakkol_jamam_time_base": "fixed_clock"
+    },
+    "ai": {
+        "features_enabled": false,
+        "provider": "auto",
+        "intent_enabled": true,
+        "rewrite_enabled": true,
+        "planner_enabled": true,
+        "narrator_enabled": true
+    }
+}

@@ -1,0 +1,336 @@
+{
+  "description": "Ayanamsa system configuration for Vedic astrology",
+  "version": "2.0",
+  "position_profiles": {
+    "true_chitra_apparent_geocentric": {
+      "id": "true_chitra_apparent_geocentric",
+      "description": "General True Chitra apparent geocentric profile",
+      "sidereal_mode": "SIDM_TRUE_CITRA",
+      "planet_flags": [
+        "SEFLG_SWIEPH",
+        "SEFLG_SIDEREAL",
+        "SEFLG_SPEED"
+      ],
+      "ayanamsa_flags": [
+        "SEFLG_SWIEPH"
+      ],
+      "ayanamsa_method": "get_ayanamsa_ex_ut",
+      "anchor_star": "Spica / Citra",
+      "anchor_sidereal_longitude_deg": 180
+    },
+    "true_chitra_truepos_geocentric_dpl": {
+      "id": "true_chitra_truepos_geocentric_dpl",
+      "description": "Kaalam/JHora-compatible True Chitra geometric profile",
+      "sidereal_mode": "SIDM_TRUE_CITRA",
+      "planet_flags": [
+        "SEFLG_SWIEPH",
+        "SEFLG_SIDEREAL",
+        "SEFLG_TRUEPOS",
+        "SEFLG_SPEED"
+      ],
+      "ayanamsa_flags": [
+        "SEFLG_SWIEPH",
+        "SEFLG_TRUEPOS"
+      ],
+      "ayanamsa_method": "get_ayanamsa_ex_ut",
+      "anchor_star": "Spica / Citra",
+      "anchor_sidereal_longitude_deg": 180
+    },
+    "true_chitra_astrometric_geocentric": {
+      "id": "true_chitra_astrometric_geocentric",
+      "description": "True Chitra astrometric profile: light-time retained, annual aberration and gravitational deflection removed (the rigorous observed sidereal place against the real star field)",
+      "sidereal_mode": "SIDM_TRUE_CITRA",
+      "planet_flags": [
+        "SEFLG_SWIEPH",
+        "SEFLG_SIDEREAL",
+        "SEFLG_NOABERR",
+        "SEFLG_NOGDEFL",
+        "SEFLG_SPEED"
+      ],
+      "ayanamsa_flags": [
+        "SEFLG_SWIEPH",
+        "SEFLG_NOABERR",
+        "SEFLG_NOGDEFL"
+      ],
+      "ayanamsa_method": "get_ayanamsa_ex_ut",
+      "anchor_star": "Spica / Citra",
+      "anchor_sidereal_longitude_deg": 180
+    },
+    "legacy_truepos_geocentric": {
+      "id": "legacy_truepos_geocentric",
+      "description": "Legacy Kaalam geometric geocentric profile",
+      "planet_flags": [
+        "SEFLG_SWIEPH",
+        "SEFLG_TRUEPOS",
+        "SEFLG_SPEED"
+      ],
+      "ayanamsa_flags": [
+        "SEFLG_SWIEPH"
+      ],
+      "ayanamsa_method": "get_ayanamsa_ex_ut"
+    },
+    "legacy_apparent_geocentric": {
+      "id": "legacy_apparent_geocentric",
+      "description": "Legacy apparent geocentric profile",
+      "planet_flags": [
+        "SEFLG_SWIEPH",
+        "SEFLG_SPEED"
+      ],
+      "ayanamsa_flags": [
+        "SEFLG_SWIEPH"
+      ],
+      "ayanamsa_method": "get_ayanamsa_ex_ut"
+    },
+    "srf_frame_fixed_truepos_geocentric": {
+      "id": "srf_frame_fixed_truepos_geocentric",
+      "description": "SRF v1.0 Dhruva Chitra frame-fixed profile: user-defined sidereal mode frozen at J2000 on the J2000 ecliptic (SIDBIT_ECL_T0), geometric TRUEPOS planets, TRUE_NODE nodes.",
+      "sidereal_mode": "SIDM_USER_ECL_T0",
+      "planet_flags": [
+        "SEFLG_SWIEPH",
+        "SEFLG_SIDEREAL",
+        "SEFLG_TRUEPOS",
+        "SEFLG_SPEED"
+      ],
+      "ayanamsa_flags": [
+        "SEFLG_SWIEPH"
+      ],
+      "ayanamsa_method": "get_ayanamsa_ut",
+      "ayanamsa_method_note": "Verified live 2026-07-08: swe.get_ayanamsa_ex_ut() does not correctly honor SIDBIT_ECL_T0's frozen reference (it returns a nutation/date-dependent value regardless of flags, off by several to ~17 arcsec depending on epoch); the flags-less swe.get_ayanamsa_ut() computes it correctly for this sidereal mode. Every other profile in this file is unaffected (they use plain SIDM_TRUE_CITRA or a legacy mode, not SIDBIT_ECL_T0) and keeps get_ayanamsa_ex_ut.",
+      "anchor_star": "Spica / Citra (frozen J2000 direction)",
+      "anchor_sidereal_longitude_deg": 180
+    }
+  },
+  "ayanamsa_systems": {
+    "KP": {
+      "swisseph_code": 5,
+      "name": "KP",
+      "full_name": "KP Original (Krishnamurti)",
+      "description": "Original KP Ayanamsa as per Krishnamurti Paddhati",
+      "origin": "K.S. Krishnamurti",
+      "year_established": 1960,
+      "reference_star": "Chitrapaksha",
+      "position_profile": "legacy_truepos_geocentric",
+      "is_default": false
+    },
+    "KP New": {
+      "swisseph_code": 255,
+      "name": "KP New",
+      "full_name": "KP New (Straight Line)",
+      "description": "KP Straight Line ayanamsa - Linear calculation from 1900 epoch using CONSTANT precession rate. Some KP practitioners prefer this for consistency. For maximum astronomical accuracy, use 'DPL' ayanamsa.",
+      "origin": "K.S. Krishnamurti (Modified)",
+      "year_established": 1960,
+      "reference_star": "Chitrapaksha",
+      "position_profile": "legacy_truepos_geocentric",
+      "is_default": false,
+      "is_custom": true,
+      "accuracy_note": "Uses constant yearly precession rate (50.2388475\"/year). Real precession is NOT constant - it varies over time. For best accuracy, use DPL ayanamsa.",
+      "custom_params": {
+        "reference_jd": 2415020,
+        "ayanamsa_at_reference": 22.36666666666667,
+        "yearly_precession": 0.01395523541667,
+        "precession_model": "Constant rate (simplified approximation)",
+        "accuracy_warning": "Constant precession rate - errors accumulate over long time periods"
+      }
+    },
+    "True Chitrapaksha": {
+      "swisseph_code": 27,
+      "name": "True Chitrapaksha",
+      "position_profile": "true_chitra_apparent_geocentric",
+      "full_name": "True Chitrapaksha - Apparent Geocentric",
+      "description": "True Citra/Spica-anchored ayanamsa using apparent geocentric positions. This is the recommended general Vedic True Chitra profile.",
+      "origin": "Modern Astronomical",
+      "reference_star": "Spica (α Virginis)",
+      "is_default": false,
+      "scientific_note": "Defines sidereal 180 degrees by the True Citra/Spica reference. Apparent positions model the observed geocentric sky."
+    },
+    "Lahiri": {
+      "swisseph_code": 1,
+      "name": "Lahiri",
+      "full_name": "Lahiri (Indian Govt.)",
+      "description": "Official ayanamsa of Indian government. Most commonly used in India for general Vedic astrology.",
+      "origin": "N.C. Lahiri",
+      "year_established": 1956,
+      "reference_star": "Chitrapaksha",
+      "position_profile": "legacy_truepos_geocentric",
+      "is_default": false
+    },
+    "True Revati": {
+      "swisseph_code": 28,
+      "name": "True Revati",
+      "full_name": "True Revati ★ Astronomical",
+      "description": "Astronomically precise - tied to Zeta Piscium (Revati star). Defines sidereal 0° Aries at Revati's end. Alternative astronomical reference.",
+      "origin": "Modern Astronomical",
+      "reference_star": "Zeta Piscium (Revati)",
+      "position_profile": "legacy_truepos_geocentric",
+      "is_default": false
+    },
+    "Raman": {
+      "swisseph_code": 3,
+      "name": "Raman",
+      "full_name": "B.V. Raman",
+      "description": "Ayanamsa popularized by the renowned astrologer Dr. B.V. Raman",
+      "origin": "B.V. Raman",
+      "year_established": 1940,
+      "reference_star": "Chitrapaksha",
+      "position_profile": "legacy_truepos_geocentric",
+      "is_default": false
+    },
+    "Yukteshwar": {
+      "swisseph_code": 7,
+      "name": "Yukteshwar",
+      "full_name": "Sri Yukteshwar",
+      "description": "Based on Sri Yukteshwar Giri's calculations from 'The Holy Science'",
+      "origin": "Sri Yukteshwar Giri",
+      "year_established": 1894,
+      "reference_star": "Revati",
+      "position_profile": "legacy_truepos_geocentric",
+      "is_default": false
+    },
+    "JN Bhasin": {
+      "swisseph_code": 8,
+      "name": "JN Bhasin",
+      "full_name": "J.N. Bhasin",
+      "description": "Ayanamsa by J.N. Bhasin",
+      "origin": "J.N. Bhasin",
+      "year_established": 1950,
+      "reference_star": "Chitrapaksha",
+      "position_profile": "legacy_truepos_geocentric",
+      "is_default": false
+    },
+    "True Pushya": {
+      "swisseph_code": 29,
+      "name": "True Pushya",
+      "full_name": "True Pushya (Delta Cancri)",
+      "description": "True sidereal ayanamsa based on Pushya star (Delta Cancri)",
+      "origin": "Traditional",
+      "reference_star": "Pushya",
+      "position_profile": "legacy_truepos_geocentric",
+      "is_default": false
+    },
+    "Aldebaran 15 Tau": {
+      "swisseph_code": 14,
+      "name": "Aldebaran 15 Tau",
+      "full_name": "Aldebaran 15 Tau",
+      "description": "Swiss Ephemeris Aldebaran 15 Tau ayanamsa. This traditional sidereal reference places Aldebaran at 15 degrees Taurus and is useful for timing comparisons against KP.",
+      "origin": "Swiss Ephemeris",
+      "reference_star": "Aldebaran",
+      "position_profile": "legacy_truepos_geocentric",
+      "is_default": false
+    },
+    "Fagan/Bradley": {
+      "swisseph_code": 0,
+      "name": "Fagan/Bradley",
+      "full_name": "Fagan/Bradley",
+      "description": "Swiss Ephemeris Fagan/Bradley ayanamsa, a widely used sidereal zodiac reference in western sidereal astrology.",
+      "origin": "Cyril Fagan and Donald Bradley",
+      "reference_star": "Fagan/Bradley sidereal zodiac",
+      "position_profile": "legacy_truepos_geocentric",
+      "is_default": false
+    },
+    "Babylonian Huber": {
+      "swisseph_code": 12,
+      "name": "Babylonian Huber",
+      "full_name": "Babylonian Huber",
+      "description": "Swiss Ephemeris Babylonian Huber ayanamsa, one of the Babylonian sidereal reference modes exposed by Swiss Ephemeris.",
+      "origin": "Babylonian / Huber",
+      "reference_star": "Babylonian sidereal zodiac",
+      "position_profile": "legacy_truepos_geocentric",
+      "is_default": false
+    },
+    "DPL": {
+      "swisseph_code": 27,
+      "name": "DPL",
+      "full_name": "True Chitra TRUEPOS",
+      "description": "Kaalam/JHora-compatible DPL profile: True Chitra/Spica anchor, geometric TRUEPOS planet flags, and TRUE_NODE for Rahu/Ketu. Use this when matching DPL/JHora-style geometric calculations.",
+      "origin": "DPL Research (2025)",
+      "year_established": 2025,
+      "reference_star": "Spica (α Virginis) - True Position",
+      "is_default": true,
+      "is_custom": true,
+      "scientific_note": "This is a coherent geometric calculation profile, not proof that one astrological interpretation is scientifically predictive. Apparent and TRUEPOS positions are both astronomically valid but answer different coordinate-model questions. DPL deliberately uses the TRUEPOS (true geometric) frame for planets, house cusps, and the displayed ayanamsa so all three share one internally consistent sidereal reference.",
+      "custom_params": {
+        "base_ayanamsa": "TRUE_CITRA",
+        "swisseph_base_mode": 27,
+        "use_true_node": true,
+        "zero_epoch_jd": 1825311.4638708346,
+        "zero_epoch_date": "June 6, 285 CE, 23:07:58 UTC (proleptic)",
+        "zero_epoch_description": "Verified property, NOT a computation input. The instant when the live DPL/TRUE_CITRA truepos ayanamsa equals 0° — equivalently, when Spica sits at exactly 180.000000° sidereal. Computed by bisection against the actual implementation; the runtime never references this value (Swiss TRUE_CITRA is self-anchoring).",
+        "calculation_method": "Uses Swiss Ephemeris TRUE_CITRA (mode 27) with SEFLG_SIDEREAL | SEFLG_TRUEPOS | SEFLG_SPEED for planets and TRUE_NODE for Rahu/Ketu. House cusps use the same SEFLG_TRUEPOS sidereal frame so cusps and grahas never drift apart.",
+        "accuracy_features": [
+          "True geometric (SEFLG_TRUEPOS) positions: light-time, annual aberration, and gravitational light-deflection are intentionally EXCLUDED so the sidereal reference stays stable",
+          "TRUE_NODE for Rahu/Ketu (not MEAN_NODE)",
+          "Spica proper motion accounted for via Swiss TRUE_CITRA (~43 milliarcseconds/year)",
+          "Nutation retained in the sidereal frame (IAU 2000/2006 precession-nutation)",
+          "Ayanamsa annual wobble is only ~±1.5 arcsec (pure nutation), versus ~±21 arcsec for the apparent-frame True Chitra profile (Spica's annual aberration)",
+          "Planets, house cusps, and the displayed ayanamsa all share one truepos frame (internally consistent to <1e-6 deg)",
+          "Optional JPL DE440/DE441 backend for sub-milliarcsecond ephemeris"
+        ],
+        "accuracy_claim": "DPL is the explicit TRUEPOS/JHora-compatible True Chitra profile, computed directly from Swiss/JPL TRUE_CITRA. It is geometrically rigorous and internally consistent across grahas, cusps, and ayanamsa; it is not a scientific proof of predictive astrology."
+      },
+      "position_profile": "true_chitra_truepos_geocentric_dpl"
+    },
+    "True Chitra Astrometric": {
+      "swisseph_code": 27,
+      "name": "True Chitra Astrometric",
+      "full_name": "True Chitra Astrometric (Observed)",
+      "description": "Research profile: True Chitra/Spica anchor in the astrometric frame — light-time retained, annual aberration and gravitational deflection removed. This is the rigorous 'observed' sidereal place of a body against the real star field, complementary to the default geometric DPL. Opt-in; not the default.",
+      "origin": "Kaalam research (2026)",
+      "year_established": 2026,
+      "reference_star": "Spica (α Virginis) - Astrometric",
+      "is_default": false,
+      "is_research": true,
+      "scientific_note": "Astrometric = where a body is actually seen among the fixed stars: its true geometric direction corrected for light-time (the body's motion during light travel), with the observer-velocity aberration and relativistic light-deflection removed because those displace the apparent image without representing the body's place in the zodiac. Differs from the default geometric DPL by each body's light-time (Sun ~0, Moon ~15 arcsec, Mercury up to ~40 arcsec). Use DPL for classical/JHora-compatible geometric positions; use this to compare against the modern observed astrometric place.",
+      "custom_params": {
+        "base_ayanamsa": "TRUE_CITRA",
+        "swisseph_base_mode": 27,
+        "use_true_node": true,
+        "calculation_method": "Swiss Ephemeris TRUE_CITRA (mode 27) with SEFLG_SIDEREAL | SEFLG_NOABERR | SEFLG_NOGDEFL | SEFLG_SPEED for planets and TRUE_NODE for Rahu/Ketu; house cusps and the displayed ayanamsa use the matching SEFLG_NOABERR | SEFLG_NOGDEFL frame."
+      },
+      "position_profile": "true_chitra_astrometric_geocentric"
+    },
+    "Dhruva Chitra": {
+      "swisseph_code": 511,
+      "name": "Dhruva Chitra",
+      "full_name": "Dhruva Chitra - Frame-Fixed (SRF v1.0)",
+      "description": "Frame-fixed sidereal zodiac: Spica's measured J2000 direction frozen at 180 degrees forever in the inertial ICRS frame, measured on the fixed J2000 ecliptic. The first kinematically non-rotating ayanamsa in Kaalam -- the zodiac never rotates with the star's proper motion (unlike True Chitra/DPL) and is defined by published conventional constants (IAU-style: an epoch and an angle), not a fitted table or a tracked star.",
+      "origin": "Kaalam SRF research (2026)",
+      "year_established": 2026,
+      "reference_star": "Spica (alpha Virginis) - direction frozen at J2000.0",
+      "position_profile": "srf_frame_fixed_truepos_geocentric",
+      "is_default": false,
+      "is_custom": true,
+      "is_research": true,
+      "custom_params": {
+        "reference_jd": 2451545.0,
+        "ayanamsa_at_reference": 23.8413627604279,
+        "sid_mode_note": "swisseph_code 511 = SIDM_USER(255) | SIDBIT_ECL_T0(256); reference_jd is TT",
+        "derivation": "scripts/srf/derive_srf_frame.py -- see docs/audit/srf-v1-derivation/"
+      },
+      "scientific_note": "Definition/realization discipline: (reference_jd, ayanamsa_at_reference) IS the frame -- exact by convention, like the meter or ICRS -- not a fitted approximation. Verified live (2026-07-08): this Theta0 cross-checks to 0.0125 arcsec between an independent Hipparcos-2/ERFA computation and Swiss Ephemeris's own SIDM_USER|SIDBIT_ECL_T0 reconciliation (gate <0.1 arcsec). It differs from DPL's ayanamsa at J2000 by ~13.93 arcsec -- measured and attributed to nutation-in-longitude (DPL's TRUEPOS/SIDM_TRUE_CITRA path does not exclude nutation; Dhruva Chitra's SIDBIT_ECL_T0 path was verified to always operate on mean, non-nutated elements regardless of caller flags), not a catalog error. See docs/audit/srf-v1-derivation/derivation_report.md for the full derivation, citations, and this root-cause analysis.",
+      "accuracy_note": "Realized zero point uncertainty ~0.005 arcsec (Hipparcos-2 realization budget); exact by convention thereafter. Unlike every star-tracking ayanamsa (True Chitra, True Revati, True Pushya, ...), Spica's own sidereal longitude under this system drifts away from 180 degrees over time at its own proper-motion rate (~-0.028 arcsec/year, verified) -- this is the direct, single-star signature that the frame is fixed rather than tracking."
+    }
+  },
+  "_research_note": {
+    "lahiri_zero_epoch_discovery": {
+      "date": "2025-12-21",
+      "finding": "Through ultra-high precision search, we discovered that the Lahiri ayanamsa equals exactly 0° at September 2, 285 CE, 13:43:34.184761 UTC (JD 1825399.071923434734). This is the exact zero crossing point where the Lahiri ayanamsa transitions from 359.999...° to 0.000...°. This is 5.63 years before KSK's 291 CE reference.",
+      "conclusion": "Any zero-epoch-based ayanamsa using Lahiri as baseline would be mathematically identical to Lahiri itself."
+    },
+    "dpl_ayanamsa_discovery": {
+      "date": "2025-12-22",
+      "revised": "2026-06-20",
+      "finding": "TRUE_CITRA (Swiss Ephemeris mode 27) anchors the sidereal frame to Spica/Citra. Kaalam models this through explicit position profiles: apparent geocentric for general True Chitrapaksha and TRUEPOS geometric for DPL/JHora compatibility. The DPL runtime delegates entirely to Swiss TRUE_CITRA; it does NOT perform any zero-epoch anchoring or year-by-year precession integration.",
+      "zero_epoch": {
+        "date": "June 6, 285 CE, 23:07:58 UTC (proleptic)",
+        "julian_day": 1825311.4638708346,
+        "meaning": "Verified property of the live implementation (not a computation input): the instant when DPL/TRUE_CITRA truepos ayanamsa = 0°, i.e. Spica at exactly 180.000000° sidereal. Computed by bisection against the actual engine.",
+        "correction_note": "Supersedes two earlier, mutually inconsistent and incorrect values (JD 1825184.474 / Jan 30 285 CE in config, and JD 1825390.36 / Aug 24 285 CE in the docs). The live DPL ayanamsa is -13.6 arcsec at the former and +11.0 arcsec at the latter, so neither was the true zero."
+      },
+      "accuracy_comparison": {
+        "DPL_profile": "Uses TRUE_CITRA with SEFLG_TRUEPOS for geometric/JHora-compatible calculations of planets AND house cusps (one shared frame).",
+        "True_Chitrapaksha_profile": "Uses TRUE_CITRA without SEFLG_TRUEPOS for apparent geocentric calculations; its ayanamsa carries a ~±21 arcsec annual aberration wobble that DPL does not.",
+        "TRUE_NODE_vs_MEAN_NODE": "TRUE_NODE and MEAN_NODE are different lunar node models; Kaalam DPL keeps TRUE_NODE for Rahu/Ketu."
+      }
+    }
+  }
+}

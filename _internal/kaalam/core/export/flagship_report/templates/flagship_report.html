@@ -1,0 +1,1147 @@
+<!doctype html>
+<html lang="{{ document.language_code }}" dir="{{ document.direction }}">
+<head>
+  <meta charset="utf-8">
+  <title>{{ document.title }}</title>
+  <style>
+    {{ document.font_faces_css | safe }}
+    {{ document.tokens.css_variables | safe }}
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--body);
+      font-size: 9pt;
+      line-height: 1.42;
+    }
+
+    .page-shell {
+      width: 100%;
+      min-height: 297mm;
+      position: relative;
+    }
+
+    .cover {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      border: 2pt double var(--gold);
+      padding: 14mm 13mm 12mm;
+      background:
+        linear-gradient(90deg, rgba(47, 116, 104, 0.13), rgba(255, 253, 248, 0) 42%),
+        linear-gradient(180deg, var(--white), var(--paper));
+      color: var(--ink);
+    }
+
+    .brand-mark {
+      font-family: var(--accent);
+      font-size: 8pt;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--vermilion);
+    }
+
+    .cover-title {
+      max-width: 154mm;
+      margin: 24mm 0 0;
+      font-family: var(--display);
+      font-size: 34pt;
+      line-height: 0.96;
+      font-weight: 600;
+      color: var(--indigo);
+    }
+
+    .cover-subtitle {
+      max-width: 132mm;
+      margin-top: 8mm;
+      font-family: var(--heading);
+      font-size: 13.5pt;
+      color: var(--muted);
+    }
+
+    .subject-line {
+      margin-top: 13mm;
+      padding-top: 6mm;
+      border-top: 1px solid var(--line-dark);
+      font-family: var(--accent);
+      font-size: 8.4pt;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--vermilion);
+    }
+
+    .subject-name {
+      margin-top: 3mm;
+      font-family: var(--heading);
+      font-size: 24pt;
+      color: var(--indigo);
+    }
+
+    .cover-grid,
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3mm;
+    }
+
+    .cover-grid {
+      margin-top: 12mm;
+    }
+
+    .cover > *,
+    .contents > *,
+    .report-section > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .metric-card {
+      min-height: 17mm;
+      padding: 3mm;
+      border: 0.7pt solid rgba(197, 154, 60, 0.56);
+      border-top: 2pt solid var(--gold);
+      background: linear-gradient(180deg, var(--white), var(--mist));
+      break-inside: avoid;
+    }
+
+    .metric-label {
+      font-family: var(--accent);
+      font-size: 6.8pt;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .metric-value {
+      margin-top: 1.2mm;
+      font-family: var(--table);
+      font-size: 9pt;
+      color: var(--ink);
+      overflow-wrap: anywhere;
+    }
+
+    .metric-card[data-tone="accent"] .metric-value,
+    .metric-card[data-tone="hero"] .metric-value {
+      color: var(--vermilion);
+      font-weight: 600;
+    }
+
+    .footer-note {
+      display: flex;
+      justify-content: space-between;
+      gap: 8mm;
+      margin-top: 10mm;
+      padding-top: 4mm;
+      border-top: 1px solid var(--line);
+      font-family: var(--table);
+      font-size: 7pt;
+      color: var(--muted);
+    }
+
+    /* Disclosures. The cover carries the one-line notice, a dedicated page carries
+       the full set, and .running-disclosure repeats on every printed page — Chromium
+       paints a fixed-position element once per page, and the 22mm bottom padding the
+       page sections already reserve is what keeps it clear of the content. */
+    .cover-disclosure {
+      margin-top: 8mm;
+      padding: 3mm 4mm;
+      border-left: 2pt solid var(--gold);
+      background: var(--mist);
+      font-family: var(--table);
+      font-size: 7.6pt;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+
+    .disclosures {
+      page-break-before: always;
+      width: 100%;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      padding: 14mm 13mm 22mm 19mm;
+      background: var(--paper);
+    }
+
+    .disclosure-list {
+      margin: 6mm 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .disclosure-list li {
+      margin: 0 0 4mm;
+      padding: 0 0 0 5mm;
+      border-left: 1.4pt solid var(--gold);
+      font-family: var(--table);
+      font-size: 8.6pt;
+      line-height: 1.5;
+      color: var(--ink);
+      break-inside: avoid;
+    }
+
+    /* Decorative page border, drawn once per printed page by the same fixed-position
+       mechanism .running-disclosure uses. It is an SVG stroke rather than a CSS border
+       because Chromium rounds a border up to one device pixel (0.75pt), which is three
+       times the 0.24pt hairline this frame is; an SVG stroke keeps the exact width.
+       No viewBox, so there is no scaling between SVG user units and the page. The rect
+       fills its box and the stroke is allowed to overflow, which puts the stroke
+       centreline exactly on the frame inset. */
+    .page-frame {
+      position: fixed;
+      top: var(--frame-inset);
+      right: var(--frame-inset);
+      bottom: var(--frame-inset);
+      left: var(--frame-inset);
+      z-index: 1;
+    }
+
+    .page-frame svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .page-frame rect {
+      fill: none;
+      stroke: var(--frame-color);
+      stroke-width: var(--frame-width);
+    }
+
+    .running-disclosure {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 6mm;
+      padding: 0 13mm 0 19mm;
+      font-family: var(--table);
+      font-size: 6.4pt;
+      line-height: 1.3;
+      color: var(--muted);
+      text-align: center;
+      z-index: 2;
+    }
+
+    .contents {
+      page-break-before: always;
+      width: 100%;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      padding: 14mm 13mm 22mm 19mm;
+      background: var(--paper);
+    }
+
+    .contents h1,
+    .section-title {
+      margin: 0;
+      font-family: var(--heading);
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .contents h1 {
+      font-size: 24pt;
+    }
+
+    .contents-list {
+      margin-top: 10mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3mm 7mm;
+    }
+
+    .contents-item {
+      display: grid;
+      grid-template-columns: 12mm 1fr;
+      gap: 3mm;
+      padding: 3mm 0;
+      border-bottom: 0.5pt solid var(--line);
+      break-inside: avoid;
+    }
+
+    .contents-index {
+      font-family: var(--accent);
+      color: var(--gold);
+    }
+
+    .report-section {
+      page-break-before: always;
+      width: 100%;
+      min-height: 100vh;
+      position: relative;
+      overflow: visible;
+      padding: 14mm 13mm 22mm 19mm;
+      background: var(--paper);
+    }
+
+    .contents::after,
+    .report-section::after {
+      content: "";
+      position: absolute;
+      left: 19mm;
+      right: 13mm;
+      bottom: 9mm;
+      height: 1px;
+      border-top: 0;
+      background: rgba(197, 154, 60, 0.58);
+    }
+
+    .section-kicker {
+      font-family: var(--accent);
+      font-size: 7pt;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      display: inline-block;
+      padding: 1.3mm 2.2mm;
+      background: var(--cosmic);
+      border-left: 1.7mm solid var(--gold);
+      color: var(--star);
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      margin-top: 2mm;
+      font-size: 23pt;
+      line-height: 1.03;
+      color: var(--cosmic);
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-subtitle {
+      max-width: 148mm;
+      margin-top: 2.8mm;
+      font-family: var(--body);
+      font-size: 9pt;
+      color: var(--muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-rule {
+      height: 1px;
+      margin: 5mm 0;
+      background: linear-gradient(90deg, var(--gold), var(--aurora), rgba(197, 154, 60, 0));
+      position: relative;
+      z-index: 1;
+    }
+
+    .audience-label {
+      position: absolute;
+      top: 14mm;
+      right: 13mm;
+      z-index: 2;
+      max-width: 62mm;
+      padding: 1.4mm 2.4mm;
+      border: 0.55pt solid rgba(197, 154, 60, 0.46);
+      background: rgba(255, 253, 248, 0.82);
+      font-family: var(--accent);
+      font-size: 6.4pt;
+      color: var(--vermilion);
+      text-transform: uppercase;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .content-block {
+      margin-bottom: 5mm;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quote-panel {
+      padding: 8mm 10mm;
+      border: 0.75pt solid rgba(197, 154, 60, 0.58);
+      border-left: 3mm solid var(--gold);
+      background: linear-gradient(135deg, var(--white), var(--mist));
+      break-inside: avoid;
+    }
+
+    .quote-panel h2 {
+      margin: 0 0 3mm;
+      font-family: var(--heading);
+      font-size: 17pt;
+      color: var(--cosmic);
+    }
+
+    .quote-body {
+      font-family: var(--heading);
+      font-size: 13pt;
+      line-height: 1.55;
+      color: var(--ink);
+    }
+
+    .quote-translation,
+    .section-text {
+      margin-top: 3mm;
+      color: var(--muted);
+      font-size: 9pt;
+      line-height: 1.5;
+    }
+
+    .kv-grid,
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3mm;
+    }
+
+    .kv-grid.columns-3,
+    .card-grid.profile-compact {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .kv-entry,
+    .narrative-card {
+      padding: 3mm;
+      border: 0.55pt solid rgba(197, 154, 60, 0.42);
+      background: rgba(255, 253, 248, 0.92);
+      break-inside: avoid;
+    }
+
+    .card-title {
+      font-family: var(--heading);
+      font-size: 11.5pt;
+      line-height: 1.15;
+      color: var(--cosmic);
+    }
+
+    .card-meta {
+      margin-top: 1.2mm;
+      font-family: var(--accent);
+      font-size: 6.5pt;
+      color: var(--vermilion);
+      text-transform: uppercase;
+    }
+
+    .card-summary {
+      margin-top: 1.8mm;
+      color: var(--muted);
+      font-size: 7.7pt;
+      line-height: 1.38;
+    }
+
+    .evidence-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5mm;
+      margin-bottom: 5mm;
+    }
+
+    .evidence-badge {
+      padding: 2.7mm;
+      border-left: 3px solid var(--aurora);
+      background: linear-gradient(180deg, var(--white), var(--mist));
+      break-inside: avoid;
+      box-shadow: inset 0 0 0 0.45pt rgba(197, 154, 60, 0.32);
+    }
+
+    .evidence-title {
+      font-family: var(--table);
+      font-size: 8pt;
+      font-weight: 600;
+    }
+
+    .evidence-summary {
+      margin-top: 1mm;
+      color: var(--muted);
+      font-size: 7pt;
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6mm;
+      align-items: start;
+    }
+
+    .section-natal-charts .metric-grid {
+      margin-bottom: 5mm;
+    }
+
+    .section-natal-charts .chart-grid {
+      gap: 7mm;
+    }
+
+    .chart-panel {
+      break-inside: avoid;
+      padding: 3mm;
+      border: 0.65pt solid rgba(197, 154, 60, 0.52);
+      background: rgba(255, 253, 248, 0.86);
+    }
+
+    .section-natal-charts .chart-panel {
+      padding: 4mm;
+      border: 0.8pt solid rgba(197, 154, 60, 0.66);
+      background: var(--white);
+      box-shadow: inset 0 0 0 0.5pt rgba(16, 23, 47, 0.10);
+    }
+
+    .chart-panel h2,
+    .table-title,
+    .timeline-title {
+      margin: 0 0 2mm;
+      font-family: var(--heading);
+      font-size: 14pt;
+      color: var(--star);
+      background: var(--cosmic);
+      margin: -3mm -3mm 3mm;
+      padding: 2mm 3mm;
+    }
+
+    .section-natal-charts .chart-panel h2 {
+      margin: -4mm -4mm 4mm;
+      padding: 2.5mm 3.5mm;
+    }
+
+    .chart-panel svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+      .section-natal-charts .chart-panel svg {
+      height: 78mm;
+    }
+
+    .single-chart-block .chart-panel {
+      max-width: 128mm;
+      margin: 0 auto 4mm;
+    }
+
+    .single-chart-block .chart-panel svg {
+      height: 118mm;
+      max-height: 118mm;
+    }
+
+    .section-varga-d2 .single-chart-block .chart-panel svg,
+    .section-varga-d3 .single-chart-block .chart-panel svg,
+    .section-varga-d4 .single-chart-block .chart-panel svg,
+    .section-varga-d7 .single-chart-block .chart-panel svg,
+    .section-varga-d10 .single-chart-block .chart-panel svg,
+    .section-varga-d12 .single-chart-block .chart-panel svg,
+    .section-varga-d16 .single-chart-block .chart-panel svg,
+    .section-varga-d20 .single-chart-block .chart-panel svg,
+    .section-varga-d24 .single-chart-block .chart-panel svg,
+    .section-varga-d27 .single-chart-block .chart-panel svg,
+    .section-varga-d30 .single-chart-block .chart-panel svg,
+    .section-varga-d40 .single-chart-block .chart-panel svg,
+    .section-varga-d45 .single-chart-block .chart-panel svg,
+    .section-varga-d60 .single-chart-block .chart-panel svg {
+      height: 106mm;
+      max-height: 106mm;
+    }
+
+    .report-section[class*="section-varga-"] .single-chart-block {
+      display: inline-block;
+      width: calc(50% - 3mm);
+      margin-right: 4mm;
+      vertical-align: top;
+      break-inside: avoid;
+    }
+
+    .report-section[class*="section-varga-"] .single-chart-block:nth-of-type(2n) {
+      margin-right: 0;
+    }
+
+    .report-section[class*="section-varga-"] .single-chart-block .chart-panel {
+      max-width: none;
+      margin: 0 0 4mm;
+    }
+
+    .report-section[class*="section-varga-"] .single-chart-block .chart-panel svg {
+      height: 76mm;
+      max-height: 76mm;
+    }
+
+    .heatmap-panel {
+      padding: 4mm;
+      border: 0.65pt solid rgba(197, 154, 60, 0.52);
+      background: rgba(255, 253, 248, 0.9);
+      break-inside: avoid;
+    }
+
+    .heatmap-panel svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .chart-note {
+      margin-top: 1.5mm;
+      color: var(--muted);
+      font-size: 7.2pt;
+    }
+
+    .section-natal-charts .chart-note {
+      margin-top: 2mm;
+      padding-top: 1.4mm;
+      border-top: 0.5pt solid rgba(197, 154, 60, 0.36);
+    }
+
+    .table-stack {
+      display: block;
+    }
+
+    .data-table-wrap {
+      break-inside: avoid;
+      margin-bottom: 4.5mm;
+    }
+
+    .data-table-wrap.profile-dense,
+    .data-table-wrap.profile-reference_dense {
+      break-inside: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-family: var(--table);
+    }
+
+    thead {
+      display: table-header-group;
+    }
+
+    th {
+      padding: var(--table-pad-y) var(--table-pad-x);
+      border: 0.5pt solid var(--line-dark);
+      background: var(--cosmic);
+      color: var(--white);
+      font-size: var(--header-size);
+      font-weight: 600;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    td {
+      padding: var(--table-pad-y) var(--table-pad-x);
+      border: 0.45pt solid var(--line);
+      background: rgba(255, 253, 248, 0.82);
+      color: var(--ink);
+      font-size: var(--body-size);
+      line-height: var(--line-height);
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+
+    .profile-dense td {
+      font-size: var(--dense-size);
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+
+    .profile-reference_dense th {
+      font-size: 6.7pt;
+    }
+
+    .profile-reference_dense td {
+      font-size: 6.2pt;
+      padding-top: 2.4px;
+      padding-bottom: 2.4px;
+      line-height: 1.22;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: rgba(232, 239, 235, 0.72);
+    }
+
+    .timeline-block {
+      margin: 4mm 0 5mm;
+      break-inside: avoid;
+    }
+
+    .timeline-list {
+      display: grid;
+      gap: 1.6mm;
+      margin-top: 2mm;
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr 1fr 0.65fr;
+      gap: 2mm;
+      padding: 2mm 0;
+      border-bottom: 0.45pt solid var(--line);
+      font-family: var(--table);
+      font-size: 7.4pt;
+    }
+
+    .bullet-list {
+      margin: 0 0 5mm;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 2mm;
+    }
+
+    .bullet-list li {
+      padding: 2.5mm 3mm;
+      border-left: 3px solid var(--jade);
+      background: linear-gradient(90deg, rgba(47, 117, 104, 0.13), var(--white));
+      break-inside: avoid;
+    }
+
+    .appendix-group {
+      display: grid;
+      gap: 5mm;
+    }
+
+    .pdf-style-practitioner-atlas .cover {
+      border: 1.2pt solid var(--line-dark);
+      background: var(--paper);
+    }
+
+    .pdf-style-practitioner-atlas .cover-title {
+      font-size: 31pt;
+      line-height: 1;
+    }
+
+    .pdf-style-practitioner-atlas .contents,
+    .pdf-style-practitioner-atlas .report-section {
+      background: var(--paper);
+    }
+
+    .pdf-style-practitioner-atlas .section-title {
+      font-size: 21pt;
+    }
+
+    .pdf-style-practitioner-atlas .content-block,
+    .pdf-style-practitioner-atlas .data-table-wrap {
+      margin-bottom: 3.6mm;
+    }
+
+    .pdf-style-practitioner-atlas .metric-card,
+    .pdf-style-practitioner-atlas .kv-entry,
+    .pdf-style-practitioner-atlas .narrative-card,
+    .pdf-style-practitioner-atlas .chart-panel,
+    .pdf-style-practitioner-atlas .heatmap-panel {
+      border-color: rgba(123, 101, 53, 0.64);
+      box-shadow: none;
+    }
+
+    .pdf-style-luxury-editorial .cover {
+      background: var(--paper);
+    }
+
+    .pdf-style-luxury-editorial .quote-panel,
+    .pdf-style-luxury-editorial .narrative-card,
+    .pdf-style-luxury-editorial .metric-card {
+      box-shadow: 0 3mm 8mm rgba(16, 23, 47, 0.08);
+    }
+
+    .pdf-style-maximum-spectacle {
+      background: var(--cosmic);
+    }
+
+    .pdf-style-maximum-spectacle .cover {
+      border-color: var(--gold);
+      background: var(--paper);
+      color: var(--white);
+    }
+
+    .pdf-style-maximum-spectacle .brand-mark,
+    .pdf-style-maximum-spectacle .subject-line {
+      color: var(--star);
+    }
+
+    .pdf-style-maximum-spectacle .cover-title,
+    .pdf-style-maximum-spectacle .subject-name,
+    .pdf-style-maximum-spectacle .contents h1,
+    .pdf-style-maximum-spectacle .section-title {
+      color: var(--star);
+    }
+
+    .pdf-style-maximum-spectacle .cover-subtitle,
+    .pdf-style-maximum-spectacle .footer-note,
+    .pdf-style-maximum-spectacle .section-subtitle {
+      color: var(--muted);
+    }
+
+    .pdf-style-maximum-spectacle .contents,
+    .pdf-style-maximum-spectacle .report-section {
+      background: var(--paper);
+      color: var(--white);
+    }
+
+    .pdf-style-maximum-spectacle .metric-card,
+    .pdf-style-maximum-spectacle .kv-entry,
+    .pdf-style-maximum-spectacle .narrative-card,
+    .pdf-style-maximum-spectacle .quote-panel,
+    .pdf-style-maximum-spectacle .chart-panel,
+    .pdf-style-maximum-spectacle .heatmap-panel,
+    .pdf-style-maximum-spectacle .data-table-wrap {
+      box-shadow: 0 0 0 0.45pt rgba(225, 185, 91, 0.42);
+    }
+
+    .pdf-style-maximum-spectacle .cover .metric-card {
+      background: linear-gradient(180deg, rgba(255, 250, 240, 0.97), rgba(238, 229, 210, 0.91));
+      border-color: rgba(225, 185, 91, 0.72);
+    }
+
+    .pdf-style-maximum-spectacle .cover .metric-label {
+      color: #293450;
+    }
+
+    .pdf-style-maximum-spectacle .cover .metric-value {
+      color: #081024;
+    }
+
+    .pdf-style-maximum-spectacle .section-kicker,
+    .pdf-style-maximum-spectacle .chart-panel h2,
+    .pdf-style-maximum-spectacle .table-title,
+    .pdf-style-maximum-spectacle .timeline-title {
+      background: #050918;
+      color: var(--star);
+    }
+
+    .pdf-style-maximum-spectacle .bullet-list li {
+      background: linear-gradient(90deg, rgba(88, 208, 192, 0.20), rgba(255, 253, 248, 0.94));
+    }
+
+    @media print {
+      .report-section,
+      .contents {
+        page-break-before: always;
+      }
+
+      .data-table-wrap,
+      .metric-card,
+      .chart-panel,
+      .evidence-badge {
+        break-inside: avoid;
+      }
+
+      .data-table-wrap.profile-dense,
+      .data-table-wrap.profile-reference_dense {
+        break-inside: auto;
+      }
+    }
+  </style>
+</head>
+<body class="pdf-style-{{ document.visual_style_class }}">
+  <main class="page-shell">
+    <section class="cover">
+      <div>
+        <div class="brand-mark">{{ document.organization }}</div>
+        <h1 class="cover-title">{{ document.title }}</h1>
+        <div class="cover-subtitle">{{ document.subtitle }}</div>
+        <div class="subject-line">{{ document.prepared_label }}</div>
+        <div class="subject-name">{{ document.subject }}</div>
+        <div class="cover-grid">
+          {% for metric in document.cover_metrics %}
+            <div class="metric-card" data-tone="{{ metric.tone }}">
+              <div class="metric-label">{{ metric.label }}</div>
+              <div class="metric-value">{{ metric.value }}</div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="cover-disclosure">{{ document.disclosures.short_notice }}</div>
+      </div>
+      <div class="footer-note">
+        <span>{{ document.footer_text }}</span>
+        <span>{{ document.generated_at_display }}</span>
+      </div>
+    </section>
+
+    <section class="disclosures">
+      <div class="section-kicker">{{ document.disclosures.heading }}</div>
+      <h1>{{ document.disclosures.heading }}</h1>
+      <div class="section-rule"></div>
+      <ul class="disclosure-list">
+        {% for line in document.disclosures.lines %}
+          <li>{{ line }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="contents">
+      <div class="section-kicker">{{ document.labels.contents }}</div>
+      <h1>{{ document.labels.report_index }}</h1>
+      <div class="section-rule"></div>
+      <div class="contents-list">
+        {% for item in document.contents %}
+          <div class="contents-item">
+            <div class="contents-index">{{ item.label }}</div>
+            <div>{{ item.value }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    {% for section in document.sections %}
+      <section class="report-section section-{{ section.slug }} {{ section.section_class }}">
+        {% if section.audience_label %}
+          <div class="audience-label">{{ section.audience_label }}</div>
+        {% endif %}
+        {% if section.show_shell %}
+          <div class="section-kicker">{{ section.kicker }}</div>
+          <h1 class="section-title">{{ section.title }}</h1>
+          {% if section.subtitle %}
+            <div class="section-subtitle">{{ section.subtitle }}</div>
+          {% endif %}
+          <div class="section-rule"></div>
+        {% endif %}
+
+        {% if section.content_blocks %}
+          {% for block in section.content_blocks %}
+            {% if block.kind == "quote_panel" %}
+              <div class="content-block quote-panel">
+                {% if block.title %}
+                  <h2>{{ block.title }}</h2>
+                {% endif %}
+                {% if block.body %}
+                  <div class="quote-body">{{ block.body }}</div>
+                {% endif %}
+                {% if block.translation and block.translation != block.body %}
+                  <div class="quote-translation">{{ block.translation }}</div>
+                {% endif %}
+              </div>
+            {% elif block.kind == "key_value_grid" %}
+              <div class="content-block kv-grid columns-{{ block.columns }} profile-{{ block.profile }}">
+                {% for entry in block.entries %}
+                  <div class="kv-entry">
+                    <div class="metric-label">{{ entry.label }}</div>
+                    <div class="metric-value">{{ entry.value }}</div>
+                  </div>
+                {% endfor %}
+              </div>
+            {% elif block.kind == "guidance_cards" or block.kind == "evidence_cards" %}
+              <div class="content-block card-grid profile-{{ block.profile }}">
+                {% for card in block.cards %}
+                  <div class="narrative-card">
+                    <div class="card-title">{{ card.title }}</div>
+                    {% if card.confidence or card.source %}
+                      <div class="card-meta">{{ card.confidence }}{% if card.confidence and card.source %} &middot; {% endif %}{{ card.source }}</div>
+                    {% endif %}
+                    {% if card.summary %}
+                      <div class="card-summary">{{ card.summary }}</div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            {% elif block.kind == "bullet_list" %}
+              <div class="content-block">
+                {% if block.title %}
+                  <div class="timeline-title">{{ block.title }}</div>
+                {% endif %}
+                <ul class="bullet-list">
+                  {% for item in block["items"] %}
+                    <li>{{ item }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% elif block.kind == "table" %}
+              <div class="content-block data-table-wrap profile-{{ block.profile }}">
+                {% if block.title %}
+                  <div class="table-title">{{ block.title }}</div>
+                {% endif %}
+                <table>
+                  <thead>
+                    <tr>
+                      {% for column in block.columns %}
+                        <th>{{ column }}</th>
+                      {% endfor %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in block.rows %}
+                      <tr>
+                        {% for value in row %}
+                          <td>{{ value }}</td>
+                        {% endfor %}
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% elif block.kind == "dual_chart" %}
+              <div class="content-block chart-grid">
+                {% for chart in block.charts %}
+                  <div class="chart-panel">
+                    <h2>{{ chart.title }}</h2>
+                    {{ chart.svg | safe }}
+                    {% if chart.note %}
+                      <div class="chart-note">{{ chart.note }}</div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            {% elif block.kind == "single_chart" %}
+              <div class="content-block single-chart-block">
+                <div class="chart-panel profile-{{ block.profile }}">
+                  <h2>{{ block.chart.title }}</h2>
+                  {{ block.chart.svg | safe }}
+                  {% if block.chart.note %}
+                    <div class="chart-note">{{ block.chart.note }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            {% elif block.kind == "heatmap" %}
+              <div class="content-block heatmap-panel">
+                {% if block.title %}
+                  <div class="table-title">{{ block.title }}</div>
+                {% endif %}
+                {{ block.svg | safe }}
+              </div>
+            {% elif block.kind == "section_text" %}
+              <div class="content-block section-text">{{ block.body }}</div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+        {% if section.metrics %}
+          <div class="metric-grid">
+            {% for metric in section.metrics %}
+              <div class="metric-card" data-tone="{{ metric.tone }}">
+                <div class="metric-label">{{ metric.label }}</div>
+                <div class="metric-value">{{ metric.value }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.evidence %}
+          <div class="evidence-row">
+            {% for badge in section.evidence %}
+              <div class="evidence-badge">
+                <div class="evidence-title">{{ badge.label }}</div>
+                <div class="metric-label">{{ badge.confidence }}</div>
+                <div class="evidence-summary">{{ badge.summary }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.charts %}
+          <div class="chart-grid">
+            {% for chart in section.charts %}
+              <div class="chart-panel">
+                <h2>{{ chart.title }}</h2>
+                {{ chart.svg | safe }}
+                {% if chart.note %}
+                  <div class="chart-note">{{ chart.note }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.timeline %}
+          <div class="timeline-block">
+            <div class="timeline-title">Action Windows</div>
+            <div class="timeline-list">
+              {% for row in section.timeline %}
+                <div class="timeline-row">
+                  <span>{{ row.label }}</span>
+                  <span>{{ row.start }}</span>
+                  <span>{{ row.end }}</span>
+                  <span>{{ row.value }}</span>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% if section.bullets %}
+          <ul class="bullet-list">
+            {% for bullet in section.bullets %}
+              {% if bullet %}
+                <li>{{ bullet }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        {% if section.tables %}
+          <div class="table-stack">
+            {% for table in section.tables %}
+              <div class="data-table-wrap profile-{{ table.profile }}">
+                <div class="table-title">{{ table.title }}</div>
+                <table>
+                  <thead>
+                    <tr>
+                      {% for column in table.columns %}
+                        <th>{{ column }}</th>
+                      {% endfor %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in table.rows %}
+                      <tr>
+                        {% for value in row %}
+                          <td>{{ value }}</td>
+                        {% endfor %}
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.appendix_groups %}
+          {% for group in section.appendix_groups %}
+            <div class="appendix-group">
+              {% for table in group.tables %}
+                <div class="data-table-wrap profile-{{ table.profile }}">
+                  <div class="table-title">{{ table.title }}</div>
+                  <table>
+                    <thead>
+                      <tr>
+                        {% for column in table.columns %}
+                          <th>{{ column }}</th>
+                        {% endfor %}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for row in table.rows %}
+                        <tr>
+                          {% for value in row %}
+                            <td>{{ value }}</td>
+                          {% endfor %}
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% endif %}
+      </section>
+    {% endfor %}
+  </main>
+  <div class="running-disclosure">{{ document.disclosures.short_notice }}</div>
+  {% if document.tokens.frame %}
+    <div class="page-frame">
+      <svg xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="100%" height="100%" /></svg>
+    </div>
+  {% endif %}
+</body>
+</html>

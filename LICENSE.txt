@@ -1,0 +1,56 @@
+KAALAM - VEDIC ASTROLOGY SOFTWARE
+END USER LICENSE AGREEMENT
+
+Copyright (c) 2025 Dhanapal Thirumalaisamy
+All Rights Reserved.
+
+IMPORTANT: PLEASE READ THIS LICENSE AGREEMENT CAREFULLY BEFORE USING THIS SOFTWARE.
+
+1. LICENSE GRANT
+   This software is licensed, not sold. Dhanapal Thirumalaisamy ("Licensor") grants
+   you a limited, non-exclusive, non-transferable license to install and use Kaalam
+   ("Software") for personal or commercial astrological purposes.
+
+2. RESTRICTIONS
+   You may NOT:
+   - Copy, modify, or distribute the Software
+   - Reverse engineer, decompile, or disassemble the Software
+   - Rent, lease, or lend the Software to third parties
+   - Remove any proprietary notices or labels on the Software
+   - Use the Software for any unlawful purpose
+
+3. INTELLECTUAL PROPERTY
+   The Software and all copies thereof are proprietary to the Licensor and title
+   thereto remains exclusively with the Licensor. All applicable rights to patents,
+   copyrights, trademarks, and trade secrets in the Software are and shall remain
+   exclusively with the Licensor.
+
+4. DISCLAIMER OF WARRANTIES
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+   INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+   PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+5. LIMITATION OF LIABILITY
+   IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+6. ASTROLOGICAL DISCLAIMER
+   The astrological calculations and interpretations provided by this Software are
+   for informational and entertainment purposes only. The Licensor makes no claims
+   regarding the accuracy of predictions or the validity of astrological methods.
+   Users should not make important life decisions based solely on astrological guidance.
+
+7. TERMINATION
+   This license is effective until terminated. It will terminate automatically without
+   notice if you fail to comply with any provision of this Agreement. Upon termination,
+   you must destroy all copies of the Software.
+
+8. GOVERNING LAW
+   This Agreement shall be governed by the laws of India.
+
+9. CONTACT
+   For licensing inquiries: Dhanapal.Thirumalaisamy@outlook.com
+
+By installing or using this Software, you acknowledge that you have read this Agreement,
+understand it, and agree to be bound by its terms and conditions.

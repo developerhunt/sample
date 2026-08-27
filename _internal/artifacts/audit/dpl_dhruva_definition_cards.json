@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "description": "Machine-readable definition cards for Kaalam's flagship Chitra-family ayanamsas. Numbers are Kaalam-owned statements of definition and measured residual budgets; production values still flow through Swiss Ephemeris as documented. Do not re-fit these to chase third-party software.",
+  "not_claimed": [
+    "predictive validity of any ayanamsa",
+    "JHora bit-identity for Dhruva Chitra (novel frame)",
+    "that DPL and Dhruva produce the same sky at all epochs"
+  ],
+  "upgrade_protocol": "If Swiss Ephemeris, sefstars.txt, or Hipparcos inputs change such that frozen golden or independent-oracle tests fail: re-run derivation/oracle scripts, re-certify, and update cards deliberately. Never silently widen tolerances.",
+  "systems": {
+    "DPL": {
+      "canonical_name": "DPL",
+      "family": "star_tracking_true_chitra",
+      "full_name": "True Chitra TRUEPOS (DPL)",
+      "is_default": true,
+      "sidereal_mode": "SIDM_TRUE_CITRA",
+      "swisseph_code": 27,
+      "position_profile_id": "true_chitra_truepos_geocentric_dpl",
+      "ayanamsa_method": "get_ayanamsa_ex_ut",
+      "ayanamsa_flags": ["SEFLG_SWIEPH", "SEFLG_TRUEPOS"],
+      "planet_flags": ["SEFLG_SWIEPH", "SEFLG_SIDEREAL", "SEFLG_TRUEPOS", "SEFLG_SPEED"],
+      "node_model": "TRUE_NODE",
+      "anchor": {
+        "star": "Spica (alpha Virginis, HIP 65474)",
+        "sidereal_longitude_deg": 180.0,
+        "semantics": "Spica geometric truepos longitude is pinned to 180 deg at every epoch"
+      },
+      "definition_identity": "A(t) = lambda_trop_truepos(Spica, t) - 180 deg (Swiss TRUE_CITRA)",
+      "zero_epoch_property": {
+        "jd_ut": 1825311.4638708346,
+        "note": "Derived property of the live implementation, never a runtime input"
+      },
+      "frame_sigma_arcsec": 0.005123475382979799,
+      "frame_sigma_source": "Same Hipparcos-2 Spica realization RSS budget as SRF (photocenter/zonal/PM); star-tracking does not remove catalog realization uncertainty",
+      "independent_oracle": {
+        "manifest": "kaalam/tests/fixtures/golden/independent_ayanamsa_oracle_manifest.json",
+        "max_residual_arcsec_measured": 0.0091,
+        "tolerance_arcsec": 0.02,
+        "span": "1700-2399"
+      },
+      "structural_defects_acknowledged": [
+        "Frame rotates with Spica proper motion (~5.2 arcsec/century)",
+        "Displayed ayanamsa scalar carries instantaneous nutation (~+/-1.5 arcsec annual pure-nutation component under TRUEPOS)"
+      ],
+      "docs": [
+        "docs/domain/ayanamsa/DPL_AYANAMSA_SCIENTIFIC_VERIFICATION.md",
+        "docs/domain/ayanamsa/AYANAMSA_WORLD_RANKING.md"
+      ]
+    },
+    "Dhruva Chitra": {
+      "canonical_name": "Dhruva Chitra",
+      "family": "frame_fixed_srf_v1",
+      "full_name": "Dhruva Chitra - Frame-Fixed (SRF v1.0)",
+      "is_default": false,
+      "sidereal_mode": "SIDM_USER | SIDBIT_ECL_T0",
+      "swisseph_code": 511,
+      "position_profile_id": "srf_frame_fixed_truepos_geocentric",
+      "ayanamsa_method": "get_ayanamsa_ut",
+      "ayanamsa_method_note": "get_ayanamsa_ex_ut does not honor SIDBIT_ECL_T0 frozen reference (measured off by several to ~17 arcsec depending on epoch). Plain get_ayanamsa_ut is required.",
+      "ayanamsa_flags": ["SEFLG_SWIEPH"],
+      "planet_flags": ["SEFLG_SWIEPH", "SEFLG_SIDEREAL", "SEFLG_TRUEPOS", "SEFLG_SPEED"],
+      "node_model": "TRUE_NODE",
+      "anchor": {
+        "star": "Spica (alpha Virginis, HIP 65474) direction frozen at J2000.0",
+        "sidereal_longitude_deg_at_t0": 180.0,
+        "semantics": "Frame-fixed: Spica drifts from 180 deg at its own PM after freeze (D8 signature)"
+      },
+      "definition_identity": {
+        "t0_jd_tt": 2451545.0,
+        "theta0_deg": 23.8413627604279,
+        "plane": "mean ecliptic of J2000 (SIDBIT_ECL_T0)"
+      },
+      "frame_sigma_arcsec": 0.005123475382979799,
+      "frame_sigma_source": "srf_constants.SRF_REALIZATION_UNCERTAINTY_ARCSEC",
+      "d8_signature_arcsec_per_year": -0.027975014545423626,
+      "vs_dpl_j2000_gap_arcsec": 13.931421996598203,
+      "vs_dpl_j2000_gap_cause": "nutation-in-longitude Delta-psi at J2000.0 TT (~-13.93 arcsec); not a catalog discrepancy",
+      "independent_cross_check": {
+        "erfa_vs_swiss_theta0_arcsec": 0.012501627304573049,
+        "gate_arcsec": 0.1,
+        "golden_manifest": "kaalam/tests/fixtures/golden/srf_frame_reference_manifest.json",
+        "golden_gate_mas": 5.0
+      },
+      "docs": [
+        "docs/decisions/ADR-009-srf-dhruva-chitra-frame-fixed-ayanamsa.md",
+        "docs/audit/srf-v1-derivation/derivation_report.md",
+        "docs/domain/ayanamsa/SRF_V1_DEFINITION.md"
+      ]
+    }
+  }
+}
